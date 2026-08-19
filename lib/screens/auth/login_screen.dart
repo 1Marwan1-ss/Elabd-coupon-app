@@ -11,11 +11,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //initiall state is user
+  // Initial role is client
   UserRole _selectedRole = UserRole.client;
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
+    final accent = _selectedRole == UserRole.client
+        ? AppColors.rose
+        : AppColors.brown;
+
     return Scaffold(
       backgroundColor: AppColors.cream,
       body: SafeArea(
@@ -43,29 +48,54 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
               const SizedBox(height: 32),
+
               TextField(
+                cursorColor: accent,
                 decoration: InputDecoration(
                   labelText: _selectedRole == UserRole.client
                       ? 'Email or phone'
                       : 'Staff ID',
                   prefixIcon: const Icon(Icons.person_outline),
+                  floatingLabelStyle: TextStyle(color: accent),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: accent, width: 2),
                   ),
                 ),
               ),
               const SizedBox(height: 16),
+
               TextField(
-                obscureText: true,
+                obscureText: _obscurePassword,
+                cursorColor: accent,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   prefixIcon: const Icon(Icons.lock_outline),
+                  floatingLabelStyle: TextStyle(color: accent),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
+                    onPressed: () {
+                      setState(() => _obscurePassword = !_obscurePassword);
+                    },
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: accent, width: 2),
                   ),
                 ),
               ),
               const SizedBox(height: 24),
+
               SizedBox(
                 height: 52,
                 child: ElevatedButton(
@@ -73,9 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     debugPrint('Logging in as $_selectedRole');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedRole == UserRole.client
-                        ? AppColors.rose
-                        : AppColors.brown,
+                    backgroundColor: accent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28),
                     ),
@@ -90,6 +118,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+              ),
+
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "New here? ",
+                    style: TextStyle(color: AppColors.muted),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // TODO: navigate to a RegisterScreen once it exists
+                      debugPrint('Go to register');
+                    },
+                    child: Text(
+                      'Create an account',
+                      style: TextStyle(
+                        color: accent,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
