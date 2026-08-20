@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
 import '../../widgets/role_switch.dart';
+import 'customer/customer_home_screen.dart';
+import 'staff/staff_home_screen.dart';
+import '../../widgets/app_logo.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,6 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Center(child: AppLogo(size: 120)),
+              const SizedBox(height: 16),
               const Text(
                 "El'Abd Foods",
                 textAlign: TextAlign.center,
@@ -100,7 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 52,
                 child: ElevatedButton(
                   onPressed: () {
-                    debugPrint('Logging in as $_selectedRole');
+                    final destination = _selectedRole == UserRole.client
+                        ? const CustomerHomeScreen()
+                        : const StaffHomeScreen();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => destination),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: accent,
@@ -130,8 +142,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // TODO: navigate to a RegisterScreen once it exists
-                      debugPrint('Go to register');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const RegisterScreen(),
+                        ),
+                      );
                     },
                     child: Text(
                       'Create an account',

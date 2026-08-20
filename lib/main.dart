@@ -14,7 +14,7 @@ class ElAbdCouponApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'El Abd Coupon App',
-      home: const LoginScreen(), //Awl 7aga tzhr m3 el start bta3t el app 
+      home: const LoginScreen(), //Awl 7aga tzhr m3 el start bta3t el app
     );
   }
 }
