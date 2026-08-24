@@ -5,9 +5,10 @@ import '../../../widgets/app_logo.dart';
 import '../../../widgets/drink_card.dart';
 import '../../../data/sample_drinks.dart';
 import '../../../models/drink.dart';
+import '../../../models/redemption.dart';
 import 'redeem_qr_screen.dart';
 import 'history_screen.dart';
-import '../../../models/redemption.dart';
+import '../../../widgets/coupon_input.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -17,17 +18,37 @@ class CustomerHomeScreen extends StatefulWidget {
 }
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
-  int _remaining = 5;
-  final int _total = 5;
-  static const String _placeholderBranch = 'Zayed Branch';
+  int _remaining = 0;
+  int _total = 0;
   final List<Redemption> _redemptions = [];
+
+  static const String _placeholderBranch = 'Zayed Branch';
+  static const int _drinksPerCoupon = 5;
+
+  bool get _hasCoupon => _total > 0;
+  bool get _hasDrinksLeft => _remaining > 0;
+
+  void _addCoupon() async {
+    final added = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const CouponInputSheet(),
+    );
+
+    if (added == true) {
+      setState(() {
+        _total += _drinksPerCoupon;
+        _remaining += _drinksPerCoupon;
+      });
+    }
+  }
 
   void _redeem(Drink drink) async {
     final scanned = await Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => RedeemQrScreen(drink: drink)),
     );
-
     // History simulation
     if (scanned == true) {
       setState(() {
@@ -46,8 +67,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final hasDrinksLeft = _remaining > 0;
-
     return Scaffold(
       backgroundColor: AppColors.cream,
       appBar: AppBar(
@@ -87,25 +106,50 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ---- Hero Counter ----
+              // Add Coupon Button
               Center(
                 child: Column(
                   children: [
-                    Text(
-                      '$_remaining/$_total',
-                      style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: hasDrinksLeft ? AppColors.rose : AppColors.muted,
+                    if (_hasCoupon) ...[
+                      Text(
+                        '$_remaining/$_total',
+                        style: TextStyle(
+                          fontSize: 56,
+                          fontWeight: FontWeight.bold,
+                          color: _hasDrinksLeft
+                              ? AppColors.rose
+                              : AppColors.muted,
+                        ),
                       ),
-                    ),
-                    Text(
-                      hasDrinksLeft
-                          ? 'Free drinks remaining'
-                          : 'No free drinks remaining',
-                      style: const TextStyle(
-                        color: AppColors.muted,
-                        fontSize: 13,
+                      Text(
+                        _hasDrinksLeft
+                            ? 'Drinks remaining'
+                            : 'No drinks remaining',
+                        style: const TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 13,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                    SizedBox(
+                      width: 200,
+                      height: 46,
+                      child: ElevatedButton.icon(
+                        onPressed: _addCoupon,
+                        icon: const Icon(Icons.add, size: 18),
+                        label: Text(
+                          _hasCoupon ? 'Add Another Coupon' : 'Add Coupon',
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: _hasCoupon
+                              ? AppColors.brown
+                              : AppColors.rose,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -121,13 +165,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 14,
                     mainAxisSpacing: 14,
-                    childAspectRatio: 1.1,
+                    childAspectRatio: 1.0,
                   ),
                   itemBuilder: (context, index) {
                     final drink = sampleDrinks[index];
                     return DrinkCard(
                       drink: drink,
-                      enabled: hasDrinksLeft,
+                      enabled: _hasDrinksLeft,
                       onTap: () => _redeem(drink),
                     );
                   },
