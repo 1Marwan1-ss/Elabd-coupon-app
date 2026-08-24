@@ -3,6 +3,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../theme/app_colors.dart';
 import '../../../models/scanned_coupon.dart';
+import '../../../models/redemption.dart';
 import 'verify_screen.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -13,8 +14,8 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  bool _handled = false; // prevents scanning the same code multiple times
-
+  bool _handled = false;
+  
   void _onDetect(BarcodeCapture capture) {
     if (_handled) return;
     final code = capture.barcodes.first.rawValue;
@@ -24,8 +25,7 @@ class _ScanScreenState extends State<ScanScreen> {
     _goToVerify(valid: true);
   }
 
-  // TEMPORARY
-  void _goToVerify({required bool valid}) {
+  void _goToVerify({required bool valid}) async {
     final coupon = valid
         ? const ScannedCoupon(
             customerName: 'Ahmed Hassan',
@@ -44,12 +44,18 @@ class _ScanScreenState extends State<ScanScreen> {
             isValid: false,
           );
 
-    Navigator.push(
+    final redemption = await Navigator.push<Redemption>(
       context,
       MaterialPageRoute(builder: (_) => VerifyScreen(coupon: coupon)),
-    ).then((_) {
+    );
+
+    if (!mounted) return;
+
+    if (redemption != null) {
+      Navigator.pop(context, redemption);
+    } else {
       setState(() => _handled = false);
-    });
+    }
   }
 
   @override
@@ -81,7 +87,6 @@ class _ScanScreenState extends State<ScanScreen> {
               ],
             ),
           ),
-
           Container(
             color: Colors.black,
             padding: const EdgeInsets.all(16),

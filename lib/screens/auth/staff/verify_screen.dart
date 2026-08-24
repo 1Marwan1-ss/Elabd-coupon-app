@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/app_colors.dart';
 import '../../../models/scanned_coupon.dart';
+import '../../../models/redemption.dart';
+import '../../../models/drink.dart';
 
 class VerifyScreen extends StatelessWidget {
   final ScannedCoupon coupon;
@@ -68,8 +70,6 @@ class VerifyScreen extends StatelessWidget {
   }
 
   Widget _buildValid(BuildContext context) {
-    final remainingAfter = coupon.remainingBefore - 1;
-
     return Column(
       children: [
         const Icon(Icons.check_circle, color: AppColors.rose, size: 56),
@@ -156,14 +156,18 @@ class VerifyScreen extends StatelessWidget {
                 height: 52,
                 child: ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Redeemed! $remainingAfter/${coupon.totalDrinks} remaining.',
-                        ),
+                    final redemption = Redemption(
+                      drink: Drink(
+                        id: coupon.drinkName.toLowerCase().replaceAll(' ', '_'),
+                        name: coupon.drinkName,
+                        imagePath: coupon.drinkImagePath,
                       ),
+                      redeemedAt: DateTime.now(),
+                      branch:
+                          'Zayed Branch',
+                      customerName: coupon.customerName,
                     );
-                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pop(context, redemption);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.rose,
