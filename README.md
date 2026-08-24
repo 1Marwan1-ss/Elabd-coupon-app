@@ -1,17 +1,38 @@
-# elabd_coupon_app
+# El Abd Coupon App
 
-A new Flutter project.
+A Flutter mobile application designed for El Abd Foods to manage and redeem customer drink coupons using QR codes.
 
-## Getting Started
+The application provides two user roles:
 
-This project is a starting point for a Flutter application.
+- **Customer** — Selects a free drink and displays a QR code for redemption.
+- **Staff / Barista** — Scans the customer's QR code and verifies the coupon before confirming the redemption.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## 📱 Project Overview
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The El Abd Coupon App is designed around a simple coupon redemption workflow.
+
+A customer purchases a coupon that provides **5 free drinks**. Each time the customer wants to redeem a drink, they select their preferred drink from the application and generate a QR code.
+
+The barista scans the QR code using the staff side of the application, reviews the coupon information, and confirms the redemption.
+
+### Current Flow
+
+```text
+Customer
+   │
+   ├── Log in
+   │
+   ├── Select a drink
+   │
+   └── Generate QR Code
+           │
+           ▼
+        Barista
+           │
+           ├── Scan QR Code
+           │
+           ├── Verify Coupon
+           │
+           └── Confirm Redemption
