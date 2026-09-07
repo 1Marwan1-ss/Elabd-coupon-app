@@ -1,38 +1,79 @@
-# El Abd Coupon App
+# El Abd Coupon App ☕
 
-A Flutter mobile application designed for El Abd Foods to manage and redeem customer drink coupons using QR codes.
+A mobile loyalty and coupon redemption application developed for **El Abd Foods** during my internship in the **IT Department**.
 
-The application provides two user roles:
-
-- **Customer** — Selects a free drink and displays a QR code for redemption.
-- **Staff / Barista** — Scans the customer's QR code and verifies the coupon before confirming the redemption.
+The application provides a simple digital coupon system where customers can redeem drinks using QR codes, while staff members can scan and verify coupons to complete the redemption process.
 
 ---
 
-## 📱 Project Overview
+## 🎥 Application Demo
 
-The El Abd Coupon App is designed around a simple coupon redemption workflow.
+<!-- Replace the link below with your uploaded video or YouTube link -->
 
-A customer purchases a coupon that provides **5 free drinks**. Each time the customer wants to redeem a drink, they select their preferred drink from the application and generate a QR code.
+[▶️ Watch Application Demo](https://streamable.com/nuvl8c)
 
-The barista scans the QR code using the staff side of the application, reviews the coupon information, and confirms the redemption.
+---
 
-### Current Flow
+## 📱 Overview
+
+The El Abd Coupon App is designed around two main user roles:
+
+- **Customer**
+- **Staff**
+
+Customers can add coupons, browse available drinks, select a drink, and generate a QR code for redemption.
+
+Staff members can scan the customer's QR code, verify the coupon, and confirm the redemption.
+
+The application also keeps track of redemption history for both customers and staff.
+
+---
+
+## ✨ Features
+
+### 👤 Customer Features
+
+- Create and access a customer account
+- Browse available drinks
+- Add coupons using a coupon code
+- Track remaining drinks
+- Support multiple coupons
+- Select a drink for redemption
+- Generate a unique QR code
+- View redemption history
+- View coupon status and remaining balance
+
+### 👨‍💼 Staff Features
+
+- Staff authentication
+- Scan customer QR codes
+- Verify coupon validity
+- Confirm drink redemption
+- Handle invalid or expired coupons
+- View session redemption history
+
+---
+
+## 🔄 Application Flow
+
+### Customer Flow
 
 ```text
-Customer
-   │
-   ├── Log in
-   │
-   ├── Select a drink
-   │
-   └── Generate QR Code
-           │
-           ▼
-        Barista
-           │
-           ├── Scan QR Code
-           │
-           ├── Verify Coupon
-           │
-           └── Confirm Redemption
+Create Account / Login
+        ↓
+Browse Available Drinks
+        ↓
+Add Coupon
+        ↓
+Receive Drink Balance
+        ↓
+Select a Drink
+        ↓
+Generate QR Code
+        ↓
+Show QR Code to Staff
+        ↓
+Drink Redeemed
+        ↓
+View Redemption History
+
