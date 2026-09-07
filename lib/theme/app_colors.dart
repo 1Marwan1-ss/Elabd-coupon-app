@@ -1,4 +1,3 @@
-//a8yr bs hna colors kolo hyt8yer
 import 'package:flutter/material.dart';
 
 class AppColors {

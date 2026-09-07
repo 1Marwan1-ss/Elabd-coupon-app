@@ -1,13 +1,12 @@
-//reusable widget
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 
-enum UserRole { client, staff } //Fixed variables 2 options bs
+enum UserRole { client, staff }
 
 class RoleSwitch extends StatelessWidget {
-  final UserRole selected; //Which user role is selcted
-  final ValueChanged<UserRole> onChanged; // onchange a call back function role switch --> login screen ---> change role
+  final UserRole selected;
+  final ValueChanged<UserRole> onChanged;
 
   const RoleSwitch({
     super.key,
@@ -25,7 +24,6 @@ class RoleSwitch extends StatelessWidget {
         borderRadius: BorderRadius.circular(28),
       ),
       child: Row(
-        //row bt7ot el 7aga horizontally
         children: [
           _buildTab(label: 'Client', role: UserRole.client),
           _buildTab(label: 'Staff', role: UserRole.staff),
@@ -35,7 +33,6 @@ class RoleSwitch extends StatelessWidget {
   }
 
   Widget _buildTab({required String label, required UserRole role}) {
-    // (_) Private method
     final active = selected == role;
     return Expanded(
       child: GestureDetector(

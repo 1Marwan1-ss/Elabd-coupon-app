@@ -1,6 +1,6 @@
 import '../models/drink.dart';
 
-//Replace with real data from the company API
+//Replace with real data
 const List<Drink> sampleDrinks = [
   Drink(
     id: 'american_coffee',

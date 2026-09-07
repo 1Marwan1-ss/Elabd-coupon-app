@@ -148,7 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 52,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Phase 5 will wire this to real account creation
                     debugPrint('Creating account...');
                   },
                   style: ElevatedButton.styleFrom(
